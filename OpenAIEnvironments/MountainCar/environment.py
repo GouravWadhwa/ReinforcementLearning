@@ -19,9 +19,9 @@ class Environment(gym.Env):
         self.min_position = -1.5
         self.max_position = 0.6
         self.max_speed = 0.07
-        self.goal_position = 0.50
+        self.goal_position = 0.5
         self.goal_velocity = goal_velocity
-        self.power = 0.0015
+        self.power = 0.001
 
         self.low_state = np.array(
             [self.min_position, -self.max_speed], dtype=np.float32
@@ -51,10 +51,12 @@ class Environment(gym.Env):
         return [seed]
 
     def env_step(self, action):
-
+        action = action - 1
         position = self.state[0]
         velocity = self.state[1]
         force = min(max(action, self.min_action), self.max_action)
+
+        # print (action, force)
 
         velocity += force * self.power - 0.0025 * math.cos(3 * position)
         if (velocity > self.max_speed): velocity = self.max_speed
@@ -69,9 +71,9 @@ class Environment(gym.Env):
             position >= self.goal_position and velocity >= self.goal_velocity
         )
 
-        reward = 0
+        reward = -1
         if done:
-            reward = 1
+            reward = 0
 
         self.state = np.array([position, velocity])
         return self.state, reward, done

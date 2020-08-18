@@ -11,11 +11,11 @@ agent_info = {
     "num_tiles":8,
     "num_boxes":8,
     "num_actions":3, 
-    "min_value_x":-1.5,
+    "min_value_x":-1.2,
     "max_value_x":0.5,
     "min_value_y":-0.07,
     "max_value_y":0.07,
-    "epsilon":0.0,
+    "epsilon":0.1,
     "gamma":1.0,
     "alpha":0.5
 }
@@ -53,7 +53,9 @@ for run in range (RUNS) :
                 agent.agent_end (reward)
             else :
                 last_action = agent.agent_step (state=last_state, reward=reward)
-    
+
+            # print (last_action)
+            # print (last_state)
 
         rewards_sum.append (total_reward * -1)
     
